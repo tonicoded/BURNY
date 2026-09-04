@@ -55,13 +55,17 @@ function Hero() {
       <motion.div className="hero-copy" initial={{ opacity: 0, x: -35 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: .65 }}>
         <span className="eyebrow hero-tagline">BURNY — BORN TO BURN</span>
         <span className="launch-chip">LAUNCHING ON PUMP.FUN</span>
-        <h1><span>LESS SUPPLY</span><em>MORE RICHES</em></h1>
+        <h1 aria-label="Less supply, more riches">
+          <motion.span initial={{ opacity: 0, x: -28, scale: .82 }} animate={{ opacity: 1, x: 0, scale: 1 }} transition={{ duration: .55, delay: .18, type: 'spring', stiffness: 180 }}>LESS SUPPLY</motion.span>
+          <motion.b className="hero-impact-arrow" aria-hidden="true" initial={{ opacity: 0, scale: 0, rotate: -18 }} animate={{ opacity: 1, scale: 1, rotate: 0 }} transition={{ duration: .35, delay: .58, type: 'spring', stiffness: 240 }}>↓</motion.b>
+          <motion.em initial={{ opacity: 0, x: -28, scale: .82 }} animate={{ opacity: 1, x: 0, scale: 1 }} transition={{ duration: .55, delay: .7, type: 'spring', stiffness: 180 }}>MORE RICHES</motion.em>
+        </h1>
         <p>Every transaction burns. Supply goes down. BURNY goes up.</p>
         <div className="button-row"><Button>BUY $BURNY</Button><Button dark href="#burn">VIEW THE BURN <ArrowRight size={18}/></Button></div>
         <div className="hero-proof"><span><Flame fill="currentColor"/> DEFLATIONARY</span><span><ShieldCheck/> COMMUNITY DRIVEN</span><span><Globe2/> WORLDWIDE MEMES</span></div>
       </motion.div>
       <motion.div className="hero-mascot" initial={{ opacity: 0, y: 45, scale: .94 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: .7, delay: .08 }}>
-        <div className="mascot-halo" />
+        <div className="mascot-halo" /><div className="mascot-fire-aura" aria-hidden="true"><i/><i/><i/></div>
         <img className="mascot-scene" src="/burny-hero-composite-v5.png" alt="BURNY urinating on a sad inflation coin" />
       </motion.div>
     </div>
