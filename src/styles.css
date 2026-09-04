@@ -220,8 +220,23 @@ footer{background:var(--ink);color:white;padding:70px 0 30px;border-top:6px soli
 .reward-router>div{padding:22px;text-align:center;border:3px solid #6d3522;border-radius:20px;background:linear-gradient(145deg,#35150d,#1b0d09)}
 .reward-router span{display:block;font-family:'Luckiest Guy';font-size:clamp(3.4rem,8vw,6.3rem);line-height:.85;color:var(--yellow);text-shadow:4px 5px 0 #9f260a}
 .reward-router strong{display:block;margin-top:13px;font-family:'Luckiest Guy';font-size:1.1rem;line-height:1.15}
-.reward-router>i{width:72px;height:72px;margin:auto;display:grid;place-items:center;border:4px solid var(--ink);border-radius:50%;background:var(--orange);color:var(--yellow);box-shadow:0 0 26px rgba(255,90,0,.7)}
-.reward-router>i svg{width:42px;height:42px}
+.reward-router>.router-core{position:relative;width:90px;height:90px;margin:auto;padding:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:4px solid var(--ink);border-radius:50%;background:var(--yellow);color:var(--ink);box-shadow:0 0 0 5px var(--orange),0 0 30px rgba(255,90,0,.75);animation:routerPulse 1.8s ease-in-out infinite}
+.router-core svg{width:34px;height:34px;stroke-width:3.5}
+.router-core b{font-family:'Luckiest Guy';font-size:.72rem;line-height:.82;text-align:center}
+.router-core:before,.router-core:after{content:'';position:absolute;top:50%;width:20px;height:4px;background:var(--yellow);transform:translateY(-50%)}
+.router-core:before{right:100%}.router-core:after{left:100%}
+@keyframes routerPulse{50%{transform:scale(1.07);box-shadow:0 0 0 8px rgba(255,105,0,.75),0 0 42px rgba(255,90,0,.9)}}
+.burn-chamber{position:relative;width:220px;min-height:245px;padding:22px 14px 20px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:6px solid var(--ink);border-radius:34px;background:linear-gradient(160deg,#20100a 0%,#4e1708 100%);color:white;box-shadow:0 12px 0 #9f2b0c,0 0 32px rgba(255,71,0,.32);z-index:2}
+.burn-chamber:before{content:'BURN CHAMBER';position:absolute;top:-17px;padding:7px 14px 5px;border:4px solid var(--ink);border-radius:999px;background:var(--yellow);color:var(--ink);font-family:'Luckiest Guy';font-size:.9rem;letter-spacing:.04em;white-space:nowrap}
+.burn-chamber-flame{width:96px;height:96px;display:grid;place-items:center;color:var(--orange);filter:drop-shadow(0 0 12px rgba(255,91,0,.85));animation:burnFlicker .72s ease-in-out infinite alternate;transform-origin:50% 90%}
+.burn-chamber-flame svg{width:88px;height:88px;stroke:var(--yellow);stroke-width:1.8;fill:var(--orange)}
+.burn-chamber>strong{font-family:'Luckiest Guy';font-size:1.85rem;line-height:1;color:var(--yellow);text-shadow:3px 3px 0 #a72709;white-space:nowrap}
+.burn-chamber>span{margin-top:8px;font-family:'Luckiest Guy';font-size:.8rem;letter-spacing:.04em;text-align:center}
+.burn-embers{position:absolute;inset:18px;pointer-events:none}
+.burn-embers i{position:absolute;width:8px;height:8px;border-radius:50%;background:var(--yellow);animation:emberPop 1.25s ease-out infinite}
+.burn-embers i:nth-child(1){left:22%;bottom:38%;animation-delay:-.2s}.burn-embers i:nth-child(2){right:20%;bottom:48%;animation-delay:-.7s}.burn-embers i:nth-child(3){right:34%;bottom:30%;animation-delay:-1s}
+@keyframes burnFlicker{to{transform:scale(.9,1.08) rotate(2deg);filter:drop-shadow(0 0 22px rgba(255,191,0,.95))}}
+@keyframes emberPop{0%{opacity:0;transform:translateY(10px) scale(.5)}35%{opacity:1}100%{opacity:0;transform:translateY(-55px) translateX(10px) scale(0)}}
 
 .meme-world{position:relative;overflow:hidden;background:radial-gradient(circle at 12% 5%,#fff2a7 0,transparent 30%),linear-gradient(180deg,#ffe9af,#ffc84c)}
 .meme-world:before{content:'';position:absolute;inset:0;opacity:.12;background-image:radial-gradient(var(--red) 2px,transparent 2px);background-size:24px 24px;pointer-events:none}
@@ -248,11 +263,15 @@ footer{background:var(--ink);color:white;padding:70px 0 30px;border-top:6px soli
 @media(max-width:720px){
   .launch-chip{font-size:.68rem;padding:6px 10px 4px;margin-bottom:12px;border-width:2px;box-shadow:3px 3px 0 var(--ink)}
   .reward-router{grid-template-columns:1fr;gap:14px;margin-top:38px;padding:14px}
-  .reward-router>i{transform:rotate(90deg)}
+  .reward-router>.router-core{width:84px;height:84px;transform:none}
+  .router-core:before,.router-core:after{left:50%;top:auto;width:4px;height:16px;transform:translateX(-50%)}
+  .router-core:before{bottom:100%}.router-core:after{top:100%}
   .reward-router>div{padding:20px 12px}
+  .burn-chamber{width:min(100%,220px);min-height:225px}
   .meme-world .meme-grid{grid-template-columns:1fr;gap:18px}
   .meme-world .meme-card.m1,.meme-world .meme-card.m2,.meme-world .meme-card.m3{grid-column:1;min-height:0;aspect-ratio:4/3}
   .meme-world .meme-card>div{padding:18px}
   .meme-world .meme-card p{font-size:.82rem}
   .meme-lightbox{min-height:72svh}
 }
+

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
-  ArrowDown, ArrowRight, Check, ChevronDown, Copy, Flame, Gem,
+  ArrowDown, ArrowRight, Check, ChevronDown, Copy, Flame, Gem, GitFork,
   Globe2, Send, ShieldCheck, ShoppingBag, Sparkles, Wallet,
   X, Zap
 } from 'lucide-react'
@@ -87,7 +87,11 @@ function BurnMechanism() {
   useEffect(() => { const id = setInterval(() => setCount(v => v + Math.floor(Math.random() * 19)), 1800); return () => clearInterval(id) }, [])
   return <section className="section inferno" id="burn"><div className="container"><motion.div className="section-heading light" {...reveal}><span className="eyebrow">THE 50 / 50 ENGINE</span><h2>REWARDS IN.<br/>SUPPLY OUT.</h2><p>Creator rewards actually received are split by the BURNY router: half to buyback and burn, half to building the brand.</p></motion.div>
     <div className="process">{cards.map(([Icon, title, copy], i) => <motion.div className="process-wrap" key={title} {...reveal} transition={{ delay: i * .12 }}><div className="process-card"><span className="step">0{i + 1}</span><Icon size={48}/><h3>{title}</h3><p>{copy}</p></div>{i < 2 && <ArrowRight className="process-arrow"/>}</motion.div>)}</div>
-    <motion.div className="reward-router" {...reveal}><div><span>50%</span><strong>AUTO BUYBACK<br/>+ BURN</strong></div><i><Flame fill="currentColor"/></i><div><span>50%</span><strong>GROWTH<br/>+ MEMES</strong></div></motion.div>
+    <motion.div className="reward-router" {...reveal}>
+      <div><span>50%</span><strong>AUTO BUYBACK<br/>+ BURN</strong></div>
+      <div className="router-core" aria-label="Automatic fifty-fifty creator rewards split"><GitFork/><b>AUTO<br/>SPLIT</b></div>
+      <div><span>50%</span><strong>GROWTH<br/>+ MEMES</strong></div>
+    </motion.div>
     <motion.div className="burn-counter" {...reveal}><span>COMMUNITY BURN METER</span><strong>{count.toLocaleString('en-US')} <small>$BURNY</small></strong><div className="live-dot">DEMO UNTIL LAUNCH</div></motion.div>
   </div></section>
 }
@@ -109,7 +113,16 @@ function Tokenomics() {
 
 function BurnEngine() {
   return <section className="section engine"><div className="container"><motion.div className="section-heading centered" {...reveal}><span className="eyebrow">THE BURN ENGINE</span><h2>ONE TX. ONE LESS.</h2><p>Each transaction permanently removes tokens from circulation.</p></motion.div>
-    <motion.div className="engine-track" {...reveal}><div className="coin before"><Flame/><strong>100</strong><span>$BURNY</span></div><div className="flame-gate"><i/><i/><i/><Zap fill="currentColor"/></div><ArrowRight className="engine-arrow"/><div className="coin after"><Check/><strong>99</strong><span>$BURNY</span></div></motion.div>
+    <motion.div className="engine-track" {...reveal}>
+      <div className="coin before"><Flame/><strong>100</strong><span>$BURNY</span></div>
+      <div className="burn-chamber" aria-label="One BURNY permanently burned">
+        <div className="burn-chamber-flame"><Flame fill="currentColor"/></div>
+        <strong>−1 $BURNY</strong><span>PERMANENTLY BURNED</span>
+        <div className="burn-embers" aria-hidden="true"><i/><i/><i/></div>
+      </div>
+      <ArrowRight className="engine-arrow"/>
+      <div className="coin after"><Check/><strong>99</strong><span>$BURNY</span></div>
+    </motion.div>
   </div></section>
 }
 
@@ -136,3 +149,4 @@ function Footer() {
 export default function App() {
   return <><main><Hero/><Marquee/><About/><BurnMechanism/><MemeGallery/><Tokenomics/><BurnEngine/><HowToBuy/><Community/><FAQ/></main><Footer/></>
 }
+
