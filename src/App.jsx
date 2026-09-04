@@ -12,17 +12,14 @@ const navLinks = [
 ]
 
 const tokenomics = [
-  ['TOTAL SUPPLY', '1B $BURNY'], ['BURN RATE', '1% PER TX'], ['LIQUIDITY', 'LOCKED'],
-  ['CONTRACT', 'COMING SOON'], ['TAXES', '0 / 0']
+  ['LAUNCH', 'PUMP.FUN'], ['LAUNCH SUPPLY', '1B $BURNY'], ['CREATOR REWARDS', '50 / 50'],
+  ['FIRE SHARE', '50% BUYBACK + BURN'], ['GROWTH SHARE', '50% BUILD + MEMES']
 ]
 
 const memes = [
-  ['SUPERCAR BURNY', '🏎️', 'Fast lane. Shrinking supply.'],
-  ['SHOPPING SPREE', '🛍️', 'Bags full. Supply empty.'],
-  ['BURNY RUN', '🔥', 'You cannot outrun the flame.'],
-  ['BYE INFLATION', '🪦', 'Not your dreams. Just the supply.'],
-  ['TOKEN BONFIRE', '🪙', 'Every $BURNY transaction feeds it.'],
-  ['CAMP BURNY', '🏕️', 'Built to burn, born to chill.']
+  { title: 'BURNY × PONKE', image: '/meme-burny-ponke-launch-v1.png', copy: 'Two legends. One launchpad. Maximum send.' },
+  { title: 'THE BURN ENGINE', image: '/meme-burn-engine-v1.png', copy: 'Creator rewards enter. Supply leaves.' },
+  { title: 'MEME ALLIANCE', image: '/meme-alliance-v1.png', copy: 'BURNY, PONKE and the whole timeline charging forward.' }
 ]
 
 const faqs = [
@@ -57,6 +54,7 @@ function Hero() {
     <div className="hero-layout container">
       <motion.div className="hero-copy" initial={{ opacity: 0, x: -35 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: .65 }}>
         <span className="eyebrow hero-tagline">BURNY — BORN TO BURN</span>
+        <span className="launch-chip">LAUNCHING ON PUMP.FUN</span>
         <h1><span>LESS SUPPLY</span><em>MORE RICHES</em></h1>
         <p>Every transaction burns. Supply goes down. BURNY goes up.</p>
         <div className="button-row"><Button>BUY $BURNY</Button><Button dark href="#burn">VIEW THE BURN <ArrowRight size={18}/></Button></div>
@@ -78,32 +76,33 @@ function Marquee() {
 
 function About() {
   return <section className="section cream" id="about"><div className="container split about-grid">
-    <motion.div {...reveal}><span className="eyebrow">THE HOTTEST IDEA ON SOLANA</span><h2>THE COIN THAT<br/><span className="hot">EATS ITSELF.</span></h2></motion.div>
-    <motion.div className="big-copy" {...reveal}><p>BURNY turns every transaction into fuel. A slice of supply disappears forever, leaving fewer tokens and a bigger fire.</p><div className="mini-features"><span><Flame/> DEFLATIONARY</span><span><Globe2/> WORLDWIDE MEMES</span><span><Gem/> MORE RICHES</span></div></motion.div>
+    <motion.div {...reveal}><span className="eyebrow">BORN ON PUMP.FUN</span><h2>MEME POWER.<br/><span className="hot">REAL FIRE.</span></h2></motion.div>
+    <motion.div className="big-copy" {...reveal}><p>BURNY launches through the Pump.fun bonding curve. Then our creator-rewards router turns half of every creator reward received into market buybacks and permanent burns.</p><div className="mini-features"><span><Flame/> 50% TO THE FIRE</span><span><Globe2/> COMMUNITY FIRST</span><span><Gem/> BUILT TO MEME</span></div></motion.div>
   </div></section>
 }
 
 function BurnMechanism() {
-  const cards = [[ShoppingBag, 'TRANSACTION', 'Someone buys, sells or swaps $BURNY.'], [Flame, 'BURN', 'A portion gets sent straight into the fire.'], [ArrowDown, 'SUPPLY DROPS', 'Fewer tokens remain in circulation.']]
+  const cards = [[ShoppingBag, 'PUMP.FUN TRADES', 'Eligible trading activity produces creator rewards under Pump.fun rules.'], [Zap, 'AUTO BUYBACK', '50% of rewards received are routed to automatically buy $BURNY from the market.'], [Flame, 'BURN SUPPLY', 'Bought-back tokens are sent out of circulation. The remaining 50% fuels growth.']]
   const [count, setCount] = useState(24391820)
   useEffect(() => { const id = setInterval(() => setCount(v => v + Math.floor(Math.random() * 19)), 1800); return () => clearInterval(id) }, [])
-  return <section className="section inferno" id="burn"><div className="container"><motion.div className="section-heading light" {...reveal}><span className="eyebrow">THE BURN</span><h2>EVERY TX FEEDS<br/>THE FIRE.</h2><p>No complicated story. Just a simple loop built into the token.</p></motion.div>
+  return <section className="section inferno" id="burn"><div className="container"><motion.div className="section-heading light" {...reveal}><span className="eyebrow">THE 50 / 50 ENGINE</span><h2>REWARDS IN.<br/>SUPPLY OUT.</h2><p>Creator rewards actually received are split by the BURNY router: half to buyback and burn, half to building the brand.</p></motion.div>
     <div className="process">{cards.map(([Icon, title, copy], i) => <motion.div className="process-wrap" key={title} {...reveal} transition={{ delay: i * .12 }}><div className="process-card"><span className="step">0{i + 1}</span><Icon size={48}/><h3>{title}</h3><p>{copy}</p></div>{i < 2 && <ArrowRight className="process-arrow"/>}</motion.div>)}</div>
-    <motion.div className="burn-counter" {...reveal}><span>SUPPLY BURNED</span><strong>{count.toLocaleString('en-US')} <small>$BURNY</small></strong><div className="live-dot">LIVE FIRE</div></motion.div>
+    <motion.div className="reward-router" {...reveal}><div><span>50%</span><strong>AUTO BUYBACK<br/>+ BURN</strong></div><i><Flame fill="currentColor"/></i><div><span>50%</span><strong>GROWTH<br/>+ MEMES</strong></div></motion.div>
+    <motion.div className="burn-counter" {...reveal}><span>COMMUNITY BURN METER</span><strong>{count.toLocaleString('en-US')} <small>$BURNY</small></strong><div className="live-dot">DEMO UNTIL LAUNCH</div></motion.div>
   </div></section>
 }
 
 function MemeGallery() {
   const [active, setActive] = useState(null)
-  return <section className="section cream" id="memes"><div className="container"><motion.div className="section-heading" {...reveal}><span className="eyebrow">BURNY MEME ART</span><h2>THE FLAME HAS<br/>NO CHILL.</h2></motion.div>
-    <div className="meme-grid">{memes.map((m, i) => <motion.button key={m[0]} className={`meme-card m${i + 1}`} whileHover={{ scale: 1.025, rotate: i % 2 ? 1 : -1 }} onClick={() => setActive(m)} {...reveal}><span className="meme-emoji">{m[1]}</span><div><h3>{m[0]}</h3><p>{m[2]}</p></div></motion.button>)}</div>
-    <AnimatePresence>{active && <motion.div className="lightbox" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setActive(null)}><motion.div initial={{ scale: .8 }} animate={{ scale: 1 }} className="lightbox-card"><button aria-label="Close"><X/></button><span>{active[1]}</span><h3>{active[0]}</h3><p>{active[2]}</p></motion.div></motion.div>}</AnimatePresence>
+  return <section className="section cream meme-world" id="memes"><div className="container"><motion.div className="section-heading" {...reveal}><span className="eyebrow">THE BURNY CINEMATIC UNIVERSE</span><h2>MEMES WITH<br/><span className="hot">MAXIMUM HEAT.</span></h2></motion.div>
+    <div className="meme-grid">{memes.map((m, i) => <motion.button key={m.title} className={`meme-card m${i + 1}`} whileHover={{ scale: 1.018, rotate: i % 2 ? 0.5 : -0.5 }} onClick={() => setActive(m)} {...reveal}><img src={m.image} alt={m.title} loading="lazy"/><div><h3>{m.title}</h3><p>{m.copy}</p></div></motion.button>)}</div>
+    <AnimatePresence>{active && <motion.div className="lightbox" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setActive(null)}><motion.div initial={{ scale: .8 }} animate={{ scale: 1 }} className="lightbox-card meme-lightbox"><button aria-label="Close"><X/></button><img src={active.image} alt={active.title}/><div><h3>{active.title}</h3><p>{active.copy}</p></div></motion.div></motion.div>}</AnimatePresence>
   </div></section>
 }
 
 function Tokenomics() {
-  return <section className="section dark-section" id="tokenomics"><div className="container token-grid"><motion.div {...reveal}><span className="eyebrow">TOKENOMICS</span><h2>HOT. SIMPLE.<br/><span className="yellow">VERIFIABLE.</span></h2><p className="section-copy">No maze of tiny slices. Just transparent numbers, a locked pool and a supply built to shrink.</p></motion.div>
-    <motion.div className="burn-ring" {...reveal}><div><Flame fill="currentColor"/><strong>1%</strong><span>BURN / TX</span></div></motion.div>
+  return <section className="section dark-section" id="tokenomics"><div className="container token-grid"><motion.div {...reveal}><span className="eyebrow">PUMP.FUN TOKENOMICS</span><h2>FAIR LAUNCH.<br/><span className="yellow">50 / 50 FIRE.</span></h2><p className="section-copy">Pump.fun determines platform fees through its smart contracts. BURNY's 50/50 policy applies to creator rewards actually received by our reward router.</p></motion.div>
+    <motion.div className="burn-ring" {...reveal}><div><Flame fill="currentColor"/><strong>50%</strong><span>TO THE FIRE</span></div></motion.div>
     <div className="token-list">{tokenomics.map(([k, v]) => <motion.div key={k} {...reveal}><span>{k}</span><strong>{v}</strong></motion.div>)}</div>
   </div></section>
 }
@@ -116,7 +115,7 @@ function BurnEngine() {
 
 function HowToBuy() {
   const steps = [[Wallet, 'CREATE WALLET', 'Set up a Solana wallet you control.'], [Gem, 'GET SOL', 'Add SOL for your swap and network fee.'], [Zap, 'CONNECT', 'Open the official swap and connect.'], [Flame, 'SWAP FOR $BURNY', 'Paste the verified contract and fire away.']]
-  return <section className="section yellow-section" id="buy"><div className="container"><motion.div className="section-heading centered" {...reveal}><span className="eyebrow">HOW TO BUY</span><h2>GET IN BEFORE<br/>IT GETS HOT.</h2></motion.div><div className="buy-steps">{steps.map(([Icon, title, copy], i) => <motion.div className="buy-step" key={title} {...reveal} transition={{ delay: i * .1 }}><span className="step-num">{i + 1}</span><Icon/><h3>{title}</h3><p>{copy}</p></motion.div>)}</div><div className="center"><Button dark>BUY $BURNY <ArrowRight/></Button></div></div></section>
+  return <section className="section yellow-section" id="buy"><div className="container"><motion.div className="section-heading centered" {...reveal}><span className="eyebrow">PUMP.FUN LAUNCH</span><h2>ENTER THE<br/>BONDING CURVE.</h2><p>Official Pump.fun link and contract address appear here at launch. Always verify before swapping.</p></motion.div><div className="buy-steps">{steps.map(([Icon, title, copy], i) => <motion.div className="buy-step" key={title} {...reveal} transition={{ delay: i * .1 }}><span className="step-num">{i + 1}</span><Icon/><h3>{title}</h3><p>{copy}</p></motion.div>)}</div><div className="center"><Button dark>BUY ON PUMP.FUN <ArrowRight/></Button></div></div></section>
 }
 
 function Community() {

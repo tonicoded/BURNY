@@ -213,3 +213,46 @@ footer{background:var(--ink);color:white;padding:70px 0 30px;border-top:6px soli
   .hero-tagline{margin:0 0 18px 4px;padding:7px 12px 6px;font-size:.72rem!important;border-width:2px;box-shadow:3px 4px 0 var(--ink)}
   .hero-tagline:after{border-width:0 2px 2px 0}
 }
+
+/* Epic Pump.fun launch layer */
+.launch-chip{display:block;width:max-content;max-width:100%;margin:0 0 13px;padding:7px 13px 5px;border:3px solid var(--ink);border-radius:9px;background:#78ff31;color:var(--ink);box-shadow:4px 4px 0 var(--ink);font-family:'Luckiest Guy','Arial Black',sans-serif;font-size:.82rem;letter-spacing:.055em;transform:rotate(1deg)}
+.reward-router{margin:55px auto 0;max-width:880px;display:grid;grid-template-columns:1fr 90px 1fr;align-items:center;background:#160d09;border:4px solid var(--yellow);border-radius:30px;padding:24px;box-shadow:9px 11px 0 rgba(65,10,0,.42);color:white}
+.reward-router>div{padding:22px;text-align:center;border:3px solid #6d3522;border-radius:20px;background:linear-gradient(145deg,#35150d,#1b0d09)}
+.reward-router span{display:block;font-family:'Luckiest Guy';font-size:clamp(3.4rem,8vw,6.3rem);line-height:.85;color:var(--yellow);text-shadow:4px 5px 0 #9f260a}
+.reward-router strong{display:block;margin-top:13px;font-family:'Luckiest Guy';font-size:1.1rem;line-height:1.15}
+.reward-router>i{width:72px;height:72px;margin:auto;display:grid;place-items:center;border:4px solid var(--ink);border-radius:50%;background:var(--orange);color:var(--yellow);box-shadow:0 0 26px rgba(255,90,0,.7)}
+.reward-router>i svg{width:42px;height:42px}
+
+.meme-world{position:relative;overflow:hidden;background:radial-gradient(circle at 12% 5%,#fff2a7 0,transparent 30%),linear-gradient(180deg,#ffe9af,#ffc84c)}
+.meme-world:before{content:'';position:absolute;inset:0;opacity:.12;background-image:radial-gradient(var(--red) 2px,transparent 2px);background-size:24px 24px;pointer-events:none}
+.meme-world .container{position:relative}
+.meme-world .meme-grid{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:auto;gap:24px}
+.meme-world .meme-card{grid-row:auto;min-height:420px;padding:0;display:block;background:#120c09;isolation:isolate;text-align:left}
+.meme-world .meme-card.m1{grid-column:span 7}
+.meme-world .meme-card.m2{grid-column:span 5}
+.meme-world .meme-card.m3{grid-column:1/-1;min-height:520px}
+.meme-world .meme-card>img{position:absolute;z-index:-2;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .45s ease}
+.meme-world .meme-card:hover>img{transform:scale(1.035)}
+.meme-world .meme-card:before{content:'';position:absolute;z-index:-1;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(13,7,4,.92) 100%)}
+.meme-world .meme-card>div{position:absolute;left:0;right:0;bottom:0;padding:26px;color:white}
+.meme-world .meme-card h3{font-family:'Luckiest Guy';font-size:clamp(1.75rem,3vw,3rem);margin:0;color:var(--yellow);text-shadow:3px 4px 0 var(--ink)}
+.meme-world .meme-card p{display:block;margin:8px 0 0;padding:0;border:0;background:none;color:white;font-size:.95rem;font-weight:900}
+.meme-lightbox{overflow:hidden;justify-content:flex-end;align-items:stretch;text-align:left;background:#120c09}
+.meme-lightbox>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.meme-lightbox:after{content:'';position:absolute;inset:35% 0 0;background:linear-gradient(transparent,rgba(12,6,3,.96))}
+.meme-lightbox>div{position:relative;z-index:2;padding:30px;color:white}
+.meme-lightbox>div h3{color:var(--yellow);margin:0}
+.meme-lightbox>div p{margin:7px 0 0}
+.meme-lightbox button{z-index:4}
+
+@media(max-width:720px){
+  .launch-chip{font-size:.68rem;padding:6px 10px 4px;margin-bottom:12px;border-width:2px;box-shadow:3px 3px 0 var(--ink)}
+  .reward-router{grid-template-columns:1fr;gap:14px;margin-top:38px;padding:14px}
+  .reward-router>i{transform:rotate(90deg)}
+  .reward-router>div{padding:20px 12px}
+  .meme-world .meme-grid{grid-template-columns:1fr;gap:18px}
+  .meme-world .meme-card.m1,.meme-world .meme-card.m2,.meme-world .meme-card.m3{grid-column:1;min-height:0;aspect-ratio:4/3}
+  .meme-world .meme-card>div{padding:18px}
+  .meme-world .meme-card p{font-size:.82rem}
+  .meme-lightbox{min-height:72svh}
+}
