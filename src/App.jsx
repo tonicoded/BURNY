@@ -47,7 +47,7 @@ function Hero() {
     <div className="hero-shade" />
     <Embers />
     <div className="hero-brandbar">
-      <a className="hero-wordmark" href="#top" aria-label="BURNY home">BURNY</a>
+      <a className="hero-wordmark" href="#top" aria-label="BURNY home"><img src="/burny-flame-face.png" alt="" /></a>
       <nav className="hero-nav">{navLinks.map(([label, href]) => <a key={href} href={href}>{label}</a>)}</nav>
       <div className="hero-brand-actions"><a className="hero-telegram" href="#community" aria-label="Telegram"><Send /></a><Button href="#buy" className="hero-buy">BUY $BURNY</Button></div>
     </div>
