@@ -47,7 +47,7 @@ function Hero() {
     <div className="hero-shade" />
     <Embers />
     <div className="hero-brandbar">
-      <a className="hero-wordmark" href="#top" aria-label="BURNY home"><img src="/burny-flame-face.png" alt="" /></a>
+      <a className="hero-wordmark" href="#top" aria-label="BURNY home"><img src="/burny-flame-face.png?v=2" alt="" /></a>
       <nav className="hero-nav">{navLinks.map(([label, href]) => <a key={href} href={href}>{label}</a>)}</nav>
       <div className="hero-brand-actions"><a className="hero-telegram" href="#community" aria-label="Telegram"><Send /></a><Button href="#buy" className="hero-buy">BUY $BURNY</Button></div>
     </div>
@@ -147,7 +147,7 @@ function FAQ() {
 function Footer() {
   const [copied, setCopied] = useState(false)
   const copy = () => { navigator.clipboard?.writeText('CONTRACT COMING SOON'); setCopied(true); setTimeout(() => setCopied(false), 1500) }
-  return <footer><div className="container"><div className="footer-main"><a className="footer-wordmark" href="#top" aria-label="BURNY home"><img src="/burny-flame-face.png" alt="" /></a><h2>BUILT TO BURN.</h2><div className="footer-socials"><a href="#community"><Send/></a><a href="#community"><X/></a><a href="#community"><Globe2/></a></div></div><button className="contract" onClick={copy}><span>CONTRACT</span><strong>{copied ? 'COPIED!' : 'COMING SOON'}</strong><Copy/></button><div className="footer-bottom"><span>© 2026 BURNY</span><p>$BURNY is a meme coin. Crypto is risky. Do your own research and never spend more than you can afford to lose.</p></div></div></footer>
+  return <footer><div className="container"><div className="footer-main"><a className="footer-wordmark" href="#top" aria-label="BURNY home"><img src="/burny-flame-face.png?v=2" alt="" /></a><h2>BUILT TO BURN.</h2><div className="footer-socials"><a href="#community"><Send/></a><a href="#community"><X/></a><a href="#community"><Globe2/></a></div></div><button className="contract" onClick={copy}><span>CONTRACT</span><strong>{copied ? 'COPIED!' : 'COMING SOON'}</strong><Copy/></button><div className="footer-bottom"><span>© 2026 BURNY</span><p>$BURNY is a meme coin. Crypto is risky. Do your own research and never spend more than you can afford to lose.</p></div></div></footer>
 }
 
 export default function App() {
