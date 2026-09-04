@@ -47,7 +47,7 @@ function Hero() {
     <div className="hero-shade" />
     <Embers />
     <div className="hero-brandbar">
-      <a className="hero-wordmark" href="#top" aria-label="BURNY home">BURNY</a>
+      <a className="hero-wordmark" href="#top" aria-label="BURNY home"><img src="/burny-flame-face.png" alt="" /></a>
       <nav className="hero-nav">{navLinks.map(([label, href]) => <a key={href} href={href}>{label}</a>)}</nav>
       <div className="hero-brand-actions"><a className="hero-telegram" href="#community" aria-label="Telegram"><Send /></a><Button href="#buy" className="hero-buy">BUY $BURNY</Button></div>
     </div>
@@ -55,13 +55,17 @@ function Hero() {
       <motion.div className="hero-copy" initial={{ opacity: 0, x: -35 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: .65 }}>
         <span className="eyebrow hero-tagline">BURNY — BORN TO BURN</span>
         <span className="launch-chip">LAUNCHING ON PUMP.FUN</span>
-        <h1><span>LESS SUPPLY</span><em>MORE RICHES</em></h1>
+        <h1 aria-label="Less supply, more riches">
+          <motion.span initial={{ opacity: 0, x: -28, scale: .82 }} animate={{ opacity: 1, x: 0, scale: 1 }} transition={{ duration: .55, delay: .18, type: 'spring', stiffness: 180 }}>LESS SUPPLY</motion.span>
+          <motion.b className="hero-impact-arrow" aria-hidden="true" initial={{ opacity: 0, scale: 0, rotate: -18 }} animate={{ opacity: 1, scale: 1, rotate: 0 }} transition={{ duration: .35, delay: .58, type: 'spring', stiffness: 240 }}>↓</motion.b>
+          <motion.em initial={{ opacity: 0, x: -28, scale: .82 }} animate={{ opacity: 1, x: 0, scale: 1 }} transition={{ duration: .55, delay: .7, type: 'spring', stiffness: 180 }}>MORE RICHES</motion.em>
+        </h1>
         <p>Every transaction burns. Supply goes down. BURNY goes up.</p>
         <div className="button-row"><Button>BUY $BURNY</Button><Button dark href="#burn">VIEW THE BURN <ArrowRight size={18}/></Button></div>
         <div className="hero-proof"><span><Flame fill="currentColor"/> DEFLATIONARY</span><span><ShieldCheck/> COMMUNITY DRIVEN</span><span><Globe2/> WORLDWIDE MEMES</span></div>
       </motion.div>
       <motion.div className="hero-mascot" initial={{ opacity: 0, y: 45, scale: .94 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: .7, delay: .08 }}>
-        <div className="mascot-halo" />
+        <div className="mascot-halo" /><div className="mascot-fire-aura" aria-hidden="true"><i/><i/><i/></div>
         <img className="mascot-scene" src="/burny-hero-composite-v5.png" alt="BURNY urinating on a sad inflation coin" />
       </motion.div>
     </div>
@@ -143,7 +147,7 @@ function FAQ() {
 function Footer() {
   const [copied, setCopied] = useState(false)
   const copy = () => { navigator.clipboard?.writeText('CONTRACT COMING SOON'); setCopied(true); setTimeout(() => setCopied(false), 1500) }
-  return <footer><div className="container"><div className="footer-main"><a className="footer-wordmark" href="#top">BURNY</a><h2>BUILT TO BURN.</h2><div className="footer-socials"><a href="#community"><Send/></a><a href="#community"><X/></a><a href="#community"><Globe2/></a></div></div><button className="contract" onClick={copy}><span>CONTRACT</span><strong>{copied ? 'COPIED!' : 'COMING SOON'}</strong><Copy/></button><div className="footer-bottom"><span>© 2026 BURNY</span><p>$BURNY is a meme coin. Crypto is risky. Do your own research and never spend more than you can afford to lose.</p></div></div></footer>
+  return <footer><div className="container"><div className="footer-main"><a className="footer-wordmark" href="#top" aria-label="BURNY home"><img src="/burny-flame-face.png" alt="" /></a><h2>BUILT TO BURN.</h2><div className="footer-socials"><a href="#community"><Send/></a><a href="#community"><X/></a><a href="#community"><Globe2/></a></div></div><button className="contract" onClick={copy}><span>CONTRACT</span><strong>{copied ? 'COPIED!' : 'COMING SOON'}</strong><Copy/></button><div className="footer-bottom"><span>© 2026 BURNY</span><p>$BURNY is a meme coin. Crypto is risky. Do your own research and never spend more than you can afford to lose.</p></div></div></footer>
 }
 
 export default function App() {
