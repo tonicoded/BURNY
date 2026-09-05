@@ -47,7 +47,7 @@ function Hero() {
     <div className="hero-shade" />
     <Embers />
     <div className="hero-brandbar">
-      <a className="hero-wordmark" href="#top" aria-label="BURNY home"><img src="/burny-flame-face.png?v=2" alt="" /></a>
+      <a className="hero-wordmark" href="#top" aria-label="BURNY home"><img src="/logo.png?v=1" alt="" /></a>
       <nav className="hero-nav">{navLinks.map(([label, href]) => <a key={href} href={href}>{label}</a>)}</nav>
       <div className="hero-brand-actions"><a className="hero-telegram" href="#community" aria-label="Telegram"><Send /></a><Button href="#buy" className="hero-buy">BUY $BURNY</Button></div>
     </div>
@@ -136,7 +136,7 @@ function HowToBuy() {
 }
 
 function Community() {
-  return <section className="community" id="community"><div className="container"><motion.div className="community-banner" {...reveal}><Embers/><div><span className="eyebrow">BURN TOGETHER</span><h2>THE FIRE GETS<br/>BIGGER TOGETHER.</h2><p>Memes, updates, burns and a community that keeps the flame moving.</p><div className="button-row"><Button><Send/> TELEGRAM</Button><Button><X/> X / TWITTER</Button><Button><Sparkles/> DEXSCREENER</Button></div></div><div className="community-flame"><Flame fill="currentColor"/></div></motion.div></div></section>
+  return <section className="community" id="community"><div className="container"><motion.div className="community-banner" {...reveal}><Embers/><div><span className="eyebrow">BURN TOGETHER</span><h2>WE BURN.<br/><span>WE RISE.</span></h2><div className="narrative-copy"><p className="narrative-lead">BURNY was <strong>BORN TO BURN.</strong><br/>But <strong>WE were Born to Burn Together.</strong></p><p>We burn fear.<br/>We burn doubt.<br/>We burn every limit standing in our way.</p><p><strong>$BURNY holders don’t watch from the sidelines.</strong><br/><span className="narrative-highlight">We participate.</span><br/><span className="narrative-highlight">We contribute.</span><br/><span className="narrative-highlight">WE BURN TOGETHER.</span></p><p>Every holder brings the fire.<br/>Every contribution makes $BURNY stronger.</p><p>One flame can start a fire.<br/>Together, we become unstoppable.</p><div className="narrative-cta">🔥 JOIN THE $BURNY ARMY</div><p className="narrative-finale">BURN TOGETHER = RISE TOGETHER.</p></div><div className="button-row"><Button><Send/> TELEGRAM</Button><Button><X/> X / TWITTER</Button><Button><Sparkles/> DEXSCREENER</Button></div></div><div className="community-flame"><Flame fill="currentColor"/></div></motion.div></div></section>
 }
 
 function FAQ() {
@@ -147,7 +147,7 @@ function FAQ() {
 function Footer() {
   const [copied, setCopied] = useState(false)
   const copy = () => { navigator.clipboard?.writeText('CONTRACT COMING SOON'); setCopied(true); setTimeout(() => setCopied(false), 1500) }
-  return <footer><div className="container"><div className="footer-main"><a className="footer-wordmark" href="#top" aria-label="BURNY home"><img src="/burny-flame-face.png?v=2" alt="" /></a><h2>BUILT TO BURN.</h2><div className="footer-socials"><a href="#community"><Send/></a><a href="#community"><X/></a><a href="#community"><Globe2/></a></div></div><button className="contract" onClick={copy}><span>CONTRACT</span><strong>{copied ? 'COPIED!' : 'COMING SOON'}</strong><Copy/></button><div className="footer-bottom"><span>© 2026 BURNY</span><p>$BURNY is a meme coin. Crypto is risky. Do your own research and never spend more than you can afford to lose.</p></div></div></footer>
+  return <footer><div className="container"><div className="footer-main"><a className="footer-wordmark" href="#top" aria-label="BURNY home"><img src="/logo.png?v=1" alt="" /></a><h2>BUILT TO BURN.</h2><div className="footer-socials"><a href="#community"><Send/></a><a href="#community"><X/></a><a href="#community"><Globe2/></a></div></div><button className="contract" onClick={copy}><span>CONTRACT</span><strong>{copied ? 'COPIED!' : 'COMING SOON'}</strong><Copy/></button><div className="footer-bottom"><span>© 2026 BURNY</span><p>$BURNY is a meme coin. Crypto is risky. Do your own research and never spend more than you can afford to lose.</p></div></div></footer>
 }
 
 export default function App() {
