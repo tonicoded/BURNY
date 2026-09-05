@@ -54,13 +54,13 @@ function Hero() {
     <div className="hero-layout container">
       <motion.div className="hero-copy" initial={{ opacity: 0, x: -35 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: .65 }}>
         <span className="eyebrow hero-tagline">BURNY — BORN TO BURN</span>
-        <span className="launch-chip">LAUNCHING ON PUMP.FUN</span>
+        <span className="launch-chip">BURN TOGETHER • RISE TOGETHER</span>
         <h1 aria-label="Less supply, more riches">
           <motion.span initial={{ opacity: 0, x: -28, scale: .82 }} animate={{ opacity: 1, x: 0, scale: 1 }} transition={{ duration: .55, delay: .18, type: 'spring', stiffness: 180 }}>LESS SUPPLY</motion.span>
           <motion.b className="hero-impact-arrow" aria-hidden="true" initial={{ opacity: 0, scale: 0, rotate: -18 }} animate={{ opacity: 1, scale: 1, rotate: 0 }} transition={{ duration: .35, delay: .58, type: 'spring', stiffness: 240 }}>↓</motion.b>
           <motion.em initial={{ opacity: 0, x: -28, scale: .82 }} animate={{ opacity: 1, x: 0, scale: 1 }} transition={{ duration: .55, delay: .7, type: 'spring', stiffness: 180 }}>MORE RICHES</motion.em>
         </h1>
-        <p>Every transaction burns. Supply goes down. BURNY goes up.</p>
+        <p>Every transaction burns. Supply goes down. Together, we rise.</p>
         <div className="button-row"><Button>BUY $BURNY</Button><Button dark href="#burn">VIEW THE BURN <ArrowRight size={18}/></Button></div>
         <div className="hero-proof"><span><Flame fill="currentColor"/> DEFLATIONARY</span><span><ShieldCheck/> COMMUNITY DRIVEN</span><span><Globe2/> WORLDWIDE MEMES</span></div>
       </motion.div>
@@ -81,7 +81,7 @@ function Marquee() {
 function About() {
   return <section className="section cream" id="about"><div className="container split about-grid">
     <motion.div {...reveal}><span className="eyebrow">BORN ON PUMP.FUN</span><h2>MEME POWER.<br/><span className="hot">REAL FIRE.</span></h2></motion.div>
-    <motion.div className="big-copy" {...reveal}><p>BURNY launches through the Pump.fun bonding curve. Then our creator-rewards router turns half of every creator reward received into market buybacks and permanent burns.</p><div className="mini-features"><span><Flame/> 50% TO THE FIRE</span><span><Globe2/> COMMUNITY FIRST</span><span><Gem/> BUILT TO MEME</span></div></motion.div>
+    <motion.div className="big-copy" {...reveal}><p>BURNY was born to burn. But we were born to burn together. Every holder brings the fire; every contribution makes $BURNY stronger.</p><div className="mini-features"><span><Flame/> BURN FEAR</span><span><Globe2/> BURN DOUBT</span><span><Gem/> BURN LIMITS</span></div></motion.div>
   </div></section>
 }
 
@@ -89,7 +89,7 @@ function BurnMechanism() {
   const cards = [[ShoppingBag, 'PUMP.FUN TRADES', 'Eligible trading activity produces creator rewards under Pump.fun rules.'], [Zap, 'AUTO BUYBACK', '50% of rewards received are routed to automatically buy $BURNY from the market.'], [Flame, 'BURN SUPPLY', 'Bought-back tokens are sent out of circulation. The remaining 50% fuels growth.']]
   const [count, setCount] = useState(24391820)
   useEffect(() => { const id = setInterval(() => setCount(v => v + Math.floor(Math.random() * 19)), 1800); return () => clearInterval(id) }, [])
-  return <section className="section inferno" id="burn"><div className="container"><motion.div className="section-heading light" {...reveal}><span className="eyebrow">THE 50 / 50 ENGINE</span><h2>REWARDS IN.<br/>SUPPLY OUT.</h2><p>Creator rewards actually received are split by the BURNY router: half to buyback and burn, half to building the brand.</p></motion.div>
+  return <section className="section inferno" id="burn"><div className="container"><motion.div className="section-heading light" {...reveal}><span className="eyebrow">THE 50 / 50 ENGINE</span><h2>FEAR OUT.<br/>FIRE IN.</h2><p>We don't watch from the sidelines. Creator rewards feed buybacks, burns and the movement.</p></motion.div>
     <div className="process">{cards.map(([Icon, title, copy], i) => <motion.div className="process-wrap" key={title} {...reveal} transition={{ delay: i * .12 }}><div className="process-card"><span className="step">0{i + 1}</span><Icon size={48}/><h3>{title}</h3><p>{copy}</p></div>{i < 2 && <ArrowRight className="process-arrow"/>}</motion.div>)}</div>
     <motion.div className="reward-router" {...reveal}>
       <div><span>50%</span><strong>AUTO BUYBACK<br/>+ BURN</strong></div>
@@ -109,7 +109,7 @@ function MemeGallery() {
 }
 
 function Tokenomics() {
-  return <section className="section dark-section" id="tokenomics"><div className="container token-grid"><motion.div {...reveal}><span className="eyebrow">PUMP.FUN TOKENOMICS</span><h2>FAIR LAUNCH.<br/><span className="yellow">50 / 50 FIRE.</span></h2><p className="section-copy">Pump.fun determines platform fees through its smart contracts. BURNY's 50/50 policy applies to creator rewards actually received by our reward router.</p></motion.div>
+  return <section className="section dark-section" id="tokenomics"><div className="container token-grid"><motion.div {...reveal}><span className="eyebrow">BURN TOGETHER TOKENOMICS</span><h2>FAIR LAUNCH.<br/><span className="yellow">RISE TOGETHER.</span></h2><p className="section-copy">Pump.fun sets the platform rules. BURNY sets the spirit: half the creator rewards we receive go back into the fire, half go into the community and the memes.</p></motion.div>
     <motion.div className="burn-ring" {...reveal}><div><Flame fill="currentColor"/><strong>50%</strong><span>TO THE FIRE</span></div></motion.div>
     <div className="token-list">{tokenomics.map(([k, v]) => <motion.div key={k} {...reveal}><span>{k}</span><strong>{v}</strong></motion.div>)}</div>
   </div></section>
@@ -136,7 +136,7 @@ function HowToBuy() {
 }
 
 function Community() {
-  return <section className="community" id="community"><div className="container"><motion.div className="community-banner" {...reveal}><Embers/><div><span className="eyebrow">BURN TOGETHER</span><h2>WE BURN.<br/><span>WE RISE.</span></h2><div className="narrative-copy"><p className="narrative-lead">BURNY was <strong>BORN TO BURN.</strong><br/>But <strong>WE were Born to Burn Together.</strong></p><p>We burn fear.<br/>We burn doubt.<br/>We burn every limit standing in our way.</p><p><strong>$BURNY holders don’t watch from the sidelines.</strong><br/><span className="narrative-highlight">We participate.</span><br/><span className="narrative-highlight">We contribute.</span><br/><span className="narrative-highlight">WE BURN TOGETHER.</span></p><p>Every holder brings the fire.<br/>Every contribution makes $BURNY stronger.</p><p>One flame can start a fire.<br/>Together, we become unstoppable.</p><div className="narrative-cta">🔥 JOIN THE $BURNY ARMY</div><p className="narrative-finale">BURN TOGETHER = RISE TOGETHER.</p></div><div className="button-row"><Button><Send/> TELEGRAM</Button><Button><X/> X / TWITTER</Button><Button><Sparkles/> DEXSCREENER</Button></div></div><div className="community-flame"><Flame fill="currentColor"/></div></motion.div></div></section>
+  return <section className="community" id="community"><div className="container"><motion.div className="community-banner" {...reveal}><Embers/><div><span className="eyebrow">THE $BURNY ARMY</span><h2>BURN TOGETHER.<br/><span>RISE TOGETHER.</span></h2><p>BURNY was born to burn. We were born to burn together. Hold, participate, contribute — bring the fire.</p><div className="community-chant"><span>WE PARTICIPATE.</span><span>WE CONTRIBUTE.</span><span>WE BURN TOGETHER.</span></div><div className="button-row"><Button><Send/> JOIN THE ARMY</Button><Button><X/> X / TWITTER</Button><Button><Sparkles/> DEXSCREENER</Button></div></div><div className="community-flame"><Flame fill="currentColor"/></div></motion.div></div></section>
 }
 
 function FAQ() {

@@ -172,6 +172,21 @@ footer{background:var(--ink);color:white;padding:70px 0 30px;border-top:6px soli
 @keyframes mascotBreatheMobile{0%,100%{transform:scale(1)}50%{transform:scale(1.018,1.025)}}
 @media(prefers-reduced-motion:reduce){.hero-copy h1>b.hero-impact-arrow,.hero-mascot>.mascot-scene,.mascot-fire-aura,.mascot-fire-aura i{animation:none}}
 .scroll-cue{z-index:40;bottom:34px}
+.community-banner h2 span{color:var(--yellow)}
+.community-chant{display:flex;flex-wrap:wrap;gap:9px;margin:4px 0 6px;position:relative;z-index:2}
+.community-chant span{display:inline-block;padding:7px 11px 5px;border:2px solid var(--yellow);border-radius:999px;background:rgba(17,13,11,.78);color:var(--yellow);font-family:'Luckiest Guy';font-size:.9rem;letter-spacing:.02em;transform:rotate(-1deg)}
+.community-chant span:nth-child(2){transform:rotate(1deg)}
+.community-chant span:nth-child(3){background:var(--yellow);color:var(--ink);transform:rotate(-2deg)}
+.narrative-copy{max-width:690px;margin-top:8px;position:relative;z-index:2}
+.narrative-copy p{margin:0 0 22px;font-family:'Kalam',cursive;font-size:1.15rem;line-height:1.42}
+.narrative-copy .narrative-lead{font-family:'Luckiest Guy';font-size:1.35rem;line-height:1.25;letter-spacing:.02em}
+.narrative-copy strong{color:var(--yellow);font-family:'Luckiest Guy';letter-spacing:.02em}
+.narrative-highlight{display:inline-block;padding:1px 9px 0;margin:2px 0;background:var(--yellow);color:var(--ink);font-family:'Luckiest Guy';line-height:1.15;transform:rotate(-1deg)}
+.narrative-cta{display:inline-block;margin:0 0 24px;padding:10px 16px;border:3px solid var(--yellow);border-radius:999px;background:var(--ink);color:var(--yellow);font-family:'Luckiest Guy';font-size:1.05rem;box-shadow:5px 6px 0 rgba(0,0,0,.35);animation:armyPulse 2.4s ease-in-out infinite}
+.narrative-finale{color:var(--yellow);font-family:'Luckiest Guy'!important;font-size:1.45rem!important;letter-spacing:.04em}
+@keyframes armyPulse{50%{transform:translateY(-3px) scale(1.02);box-shadow:5px 9px 0 rgba(0,0,0,.35)}}
+@media(max-width:720px){.narrative-copy p{font-size:1.04rem;margin-bottom:19px}.narrative-copy .narrative-lead{font-size:1.16rem}.narrative-finale{font-size:1.22rem!important}.narrative-cta{font-size:.92rem}}
+@media(max-width:720px){.community-chant{gap:7px}.community-chant span{font-size:.75rem;padding:6px 9px 4px}}
 .hero-nav{display:flex;align-items:center;justify-content:center;gap:clamp(16px,2.4vw,34px);margin:auto;font-family:'Bangers',cursive;font-size:1rem;letter-spacing:.05em;pointer-events:auto}
 .hero-nav a{transition:transform .18s,color .18s}
 .hero-nav a:hover{color:var(--red);transform:rotate(-2deg) translateY(-2px)}
