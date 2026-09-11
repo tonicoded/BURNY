@@ -335,15 +335,15 @@ footer{background:var(--ink);color:white;padding:70px 0 30px;border-top:6px soli
 
 @media(min-width:901px){.hero-layout{padding-top:164px}}
 @media(max-width:900px){
-  .live-burn-hero{position:relative;top:auto;left:auto;width:min(760px,calc(100% - 24px));min-height:88px;margin:2px auto 17px;grid-template-columns:58px minmax(0,1fr) auto;gap:13px;padding:11px 13px;border-radius:20px;box-shadow:5px 6px 0 var(--ink),0 0 25px rgba(255,77,0,.35)}
+  .live-burn-hero{position:relative;top:auto;left:auto;width:min(760px,calc(100% - 24px));min-height:88px;margin:82px auto 17px;grid-template-columns:58px minmax(0,1fr) auto;gap:13px;padding:11px 13px;border-radius:20px;box-shadow:5px 6px 0 var(--ink),0 0 25px rgba(255,77,0,.35)}
   .live-burn-flame{width:54px;height:54px;border-radius:16px}
   .live-burn-flame svg{width:33px;height:33px}
-  .live-burn-total strong{font-size:clamp(1.5rem,5vw,2.15rem)}
+  .live-burn-total strong{max-width:100%;overflow:hidden;font-size:clamp(1.5rem,5vw,2.15rem)}
   .live-burn-supply{display:none}
   .hero-layout{min-height:calc(100svh - 190px);padding-top:0}
 }
 @media(max-width:540px){
-  .live-burn-hero{grid-template-columns:48px minmax(0,1fr);width:calc(100% - 20px);gap:10px;padding:10px}
+  .live-burn-hero{grid-template-columns:48px minmax(0,1fr);width:calc(100% - 20px);margin-top:76px;gap:10px;padding:10px}
   .live-burn-flame{width:46px;height:46px;border-width:2px;border-radius:14px}
   .live-burn-flame svg{width:29px;height:29px}
   .live-burn-total>span{font-size:.58rem;letter-spacing:.09em}
