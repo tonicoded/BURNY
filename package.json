@@ -6,15 +6,22 @@
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
-    "preview": "vite preview --host 0.0.0.0"
+    "preview": "vite preview --host 0.0.0.0",
+    "buyback-burn:once": "node --env-file=.env scripts/buyback-burn.mjs --once",
+    "buyback-burn:watch": "node --env-file=.env scripts/buyback-burn.mjs --watch"
   },
   "dependencies": {
+    "@pump-fun/pump-sdk": "^1.37.0",
+    "@pump-fun/pump-swap-sdk": "^1.20.0",
+    "@solana/spl-token": "^0.4.15",
+    "@solana/web3.js": "^1.99.0",
     "@vitejs/plugin-react": "latest",
+    "bs58": "^6.0.0",
+    "dotenv": "^17.4.2",
     "framer-motion": "latest",
     "lucide-react": "latest",
-    "vite": "latest",
     "react": "latest",
-    "react-dom": "latest"
-  },
-  "devDependencies": {}
+    "react-dom": "latest",
+    "vite": "latest"
+  }
 }

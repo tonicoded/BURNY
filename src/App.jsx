@@ -11,9 +11,22 @@ const navLinks = [
   ['MEMES', '#memes'], ['HOW TO BUY', '#buy'], ['FAQ', '#faq']
 ]
 
+const MINT = 'FBJ3Pm1ngPYfEGhcvWBBKpShdyd1Z6iNt6cByqeDpump'
+const PUMP_URL = `https://pump.fun/coin/${MINT}`
+const EXPLORER_URL = `https://solscan.io/token/${MINT}`
+const TELEGRAM_URL = 'https://t.me/burnyonsolana'
+const X_URL = 'https://x.com/burnyonsol'
+const SOLANA_RPC_URLS = ['https://rpc.solanatracker.io/public', 'https://api.mainnet-beta.solana.com']
+const INITIAL_SUPPLY = 1_000_000_000_000_000n
+const LAST_VERIFIED_BURN = 926_136_182_617n
+
+// Pump.fun mint metadata verified 2026-09-11. Supply uses 6 token decimals.
 const tokenomics = [
-  ['LAUNCH', 'PUMP.FUN'], ['LAUNCH SUPPLY', '1B $BURNY'], ['CREATOR REWARDS', '50 / 50'],
-  ['FIRE SHARE', '50% BUYBACK + BURN'], ['GROWTH SHARE', '50% BUILD + MEMES']
+  ['TOKEN', 'BURNY ($BURNY)'], ['NETWORK', 'SOLANA'], ['LAUNCHPAD', 'PUMP.FUN'],
+  ['LAUNCH SUPPLY', '1,000,000,000 BURNY'], ['DECIMALS', '6'],
+  ['TOKEN STANDARD', 'TOKEN-2022'], ['LAUNCHED', '11 SEP 2026'],
+  ['AUTO BUYBACK + BURN', '50% OF CREATOR REWARDS'],
+  ['COMMUNITY RESERVE', '50% OF CREATOR REWARDS']
 ]
 
 const memes = [
@@ -23,22 +36,77 @@ const memes = [
 ]
 
 const faqs = [
-  ['What is BURNY?', 'BURNY is a fire-powered meme coin with a simple idea: every transaction feeds the flame and reduces supply.'],
-  ['How does the burn mechanism work?', 'A portion of every eligible transaction is permanently sent out of circulation. The exact launch configuration will be published before trading opens.'],
-  ['Is the supply actually reduced?', 'Yes. Burned tokens are permanently removed from the circulating supply and can be verified on-chain.'],
-  ['Where can I buy $BURNY?', 'The official swap and chart links will appear here at launch. Always verify the contract address on this website.'],
-  ['What chain is BURNY on?', 'BURNY is designed for Solana: fast, accessible, and made for the meme economy.'],
-  ['Is liquidity locked?', 'Liquidity lock details and verification links will be published before launch.']
+  ['What is BURNY?', 'BURNY is a community-driven meme coin on Solana, now live on Pump.fun.'],
+  ['How does the burn mechanism work?', 'Every hour, the BURNY engine checks accrued creator rewards. Once the minimum is reached, 50% of the net rewards buys BURNY and the exact tokens received are permanently burned. The other 50% stays in the creator wallet.'],
+  ['Has any supply been burned?', 'Yes. The live counter reads the Token-2022 mint supply directly from Solana and compares it with the 1 billion launch supply. Every completed burn can be verified on-chain.'],
+  ['Where can I buy $BURNY?', 'Use the Buy on Pump.fun buttons on this website. Confirm the full contract address shown below before trading.'],
+  ['What is the token supply?', 'Pump.fun reports a launch supply of 1,000,000,000 BURNY with 6 decimals. Check Solscan for current on-chain supply.'],
+  ['Is liquidity locked?', 'A liquidity lock has not been independently verified here. Consult the live Pump.fun page and on-chain records for the current pool and launch status.']
 ]
 
 const reveal = { initial: { opacity: 0, y: 35 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, amount: .2 }, transition: { duration: .55 } }
 
-function Button({ children, dark = false, href = '#buy', className = '' }) {
+function Button({ children, dark = false, href = PUMP_URL, className = '' }) {
   return <motion.a whileTap={{ scale: .94 }} whileHover={{ y: -3 }} className={`comic-button ${dark ? 'dark' : ''} ${className}`} href={href}>{children}</motion.a>
 }
 
 function Embers() {
   return <div className="embers" aria-hidden="true">{Array.from({ length: 18 }, (_, i) => <i key={i} style={{ '--i': i, '--x': `${(i * 37) % 100}%`, '--d': `${4 + (i % 6)}s` }} />)}</div>
+}
+
+function formatBurny(baseUnits) {
+  const whole = baseUnits / 1_000_000n
+  const fraction = (baseUnits % 1_000_000n).toString().padStart(6, '0').replace(/0+$/, '')
+  return `${whole.toLocaleString('en-US')}${fraction ? `.${fraction}` : ''}`
+}
+
+function LiveBurnHero() {
+  const [burn, setBurn] = useState({
+    burned: LAST_VERIFIED_BURN,
+    supply: INITIAL_SUPPLY - LAST_VERIFIED_BURN,
+    live: false,
+  })
+
+  useEffect(() => {
+    let active = true
+    const refresh = async () => {
+      for (const rpcUrl of SOLANA_RPC_URLS) {
+        try {
+          const response = await fetch(rpcUrl, {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({
+              jsonrpc: '2.0', id: 1, method: 'getTokenSupply',
+              params: [MINT, { commitment: 'confirmed' }],
+            }),
+          })
+          if (!response.ok) throw new Error('RPC unavailable')
+          const payload = await response.json()
+          const supply = BigInt(payload?.result?.value?.amount)
+          if (supply < 0n || supply > INITIAL_SUPPLY) throw new Error('Invalid supply')
+          if (active) setBurn({ burned: INITIAL_SUPPLY - supply, supply, live: true })
+          return
+        } catch {
+          // Try the next public RPC; preserve the last verified snapshot if both fail.
+        }
+      }
+      if (active) setBurn((current) => ({ ...current, live: false }))
+    }
+    refresh()
+    const timer = setInterval(refresh, 60_000)
+    return () => { active = false; clearInterval(timer) }
+  }, [])
+
+  return <motion.aside className="live-burn-hero" initial={{ opacity: 0, y: -18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .35 }} aria-live="polite">
+    <div className="live-burn-flame"><Flame fill="currentColor"/></div>
+    <div className="live-burn-total">
+      <span><i className={burn.live ? 'online' : ''}/>{burn.live ? 'LIVE ON-CHAIN BURN' : 'LAST VERIFIED BURN'}</span>
+      <strong>{formatBurny(burn.burned)}</strong>
+      <small>$BURNY DESTROYED FOREVER</small>
+    </div>
+    <div className="live-burn-supply"><span>CURRENT SUPPLY</span><strong>{formatBurny(burn.supply)}</strong></div>
+    <a href={EXPLORER_URL} target="_blank" rel="noreferrer">VERIFY SUPPLY <ArrowRight/></a>
+  </motion.aside>
 }
 
 function Hero() {
@@ -49,20 +117,21 @@ function Hero() {
     <div className="hero-brandbar">
       <a className="hero-wordmark" href="#top" aria-label="BURNY home"><img src="/logo.png?v=1" alt="" /></a>
       <nav className="hero-nav">{navLinks.map(([label, href]) => <a key={href} href={href}>{label}</a>)}</nav>
-      <div className="hero-brand-actions"><a className="hero-telegram" href="#community" aria-label="Telegram"><Send /></a><Button href="#buy" className="hero-buy">BUY $BURNY</Button></div>
+      <div className="hero-brand-actions"><a className="hero-telegram" href={TELEGRAM_URL} aria-label="Telegram"><Send /></a><Button href={PUMP_URL} className="hero-buy">BUY $BURNY</Button></div>
     </div>
+    <LiveBurnHero />
     <div className="hero-layout container">
       <motion.div className="hero-copy" initial={{ opacity: 0, x: -35 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: .65 }}>
         <span className="eyebrow hero-tagline">BURNY — BORN TO BURN</span>
-        <span className="launch-chip">BURN TOGETHER • RISE TOGETHER</span>
+        <span className="launch-chip">LIVE ON PUMP.FUN • SOLANA</span>
         <h1 aria-label="Less supply, more riches">
           <motion.span initial={{ opacity: 0, x: -28, scale: .82 }} animate={{ opacity: 1, x: 0, scale: 1 }} transition={{ duration: .55, delay: .18, type: 'spring', stiffness: 180 }}>LESS SUPPLY</motion.span>
           <motion.b className="hero-impact-arrow" aria-hidden="true" initial={{ opacity: 0, scale: 0, rotate: -18 }} animate={{ opacity: 1, scale: 1, rotate: 0 }} transition={{ duration: .35, delay: .58, type: 'spring', stiffness: 240 }}>↓</motion.b>
           <motion.em initial={{ opacity: 0, x: -28, scale: .82 }} animate={{ opacity: 1, x: 0, scale: 1 }} transition={{ duration: .55, delay: .7, type: 'spring', stiffness: 180 }}>MORE RICHES</motion.em>
         </h1>
-        <p>Every transaction burns. Supply goes down. Together, we rise.</p>
+        <p>BURNY is live on Solana. Join the community and bring the fire.</p>
         <div className="button-row"><Button>BUY $BURNY</Button><Button dark href="#burn">VIEW THE BURN <ArrowRight size={18}/></Button></div>
-        <div className="hero-proof"><span><Flame fill="currentColor"/> DEFLATIONARY</span><span><ShieldCheck/> COMMUNITY DRIVEN</span><span><Globe2/> WORLDWIDE MEMES</span></div>
+        <div className="hero-proof"><span><Flame fill="currentColor"/> LIVE ON PUMP.FUN</span><span><ShieldCheck/> COMMUNITY DRIVEN</span><span><Globe2/> WORLDWIDE MEMES</span></div>
       </motion.div>
       <motion.div className="hero-mascot" initial={{ opacity: 0, y: 45, scale: .94 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: .7, delay: .08 }}>
         <div className="mascot-halo" /><div className="mascot-fire-aura" aria-hidden="true"><i/><i/><i/></div>
@@ -86,17 +155,15 @@ function About() {
 }
 
 function BurnMechanism() {
-  const cards = [[ShoppingBag, 'PUMP.FUN TRADES', 'Eligible trading activity produces creator rewards under Pump.fun rules.'], [Zap, 'AUTO BUYBACK', '50% of rewards received are routed to automatically buy $BURNY from the market.'], [Flame, 'BURN SUPPLY', 'Bought-back tokens are sent out of circulation. The remaining 50% fuels growth.']]
-  const [count, setCount] = useState(24391820)
-  useEffect(() => { const id = setInterval(() => setCount(v => v + Math.floor(Math.random() * 19)), 1800); return () => clearInterval(id) }, [])
-  return <section className="section inferno" id="burn"><div className="container"><motion.div className="section-heading light" {...reveal}><span className="eyebrow">THE 50 / 50 ENGINE</span><h2>FEAR OUT.<br/>FIRE IN.</h2><p>We don't watch from the sidelines. Creator rewards feed buybacks, burns and the movement.</p></motion.div>
+  const cards = [[ShoppingBag, 'REWARDS BUILD', 'Trading activity produces creator rewards under Pump.fun rules.'], [Zap, '50% AUTO BUYBACK', 'Every hour, half of the net claimed rewards is used to buy BURNY.'], [Flame, 'ON-CHAIN BURN', 'The exact tokens bought are permanently burned through Token-2022.']]
+  return <section className="section inferno" id="burn"><div className="container"><motion.div className="section-heading light" {...reveal}><span className="eyebrow">THE 50 / 50 ENGINE</span><h2>FEAR OUT.<br/>FIRE IN.</h2><p>The engine checks creator rewards hourly. Half buys and burns BURNY; half stays in the creator wallet.</p></motion.div>
     <div className="process">{cards.map(([Icon, title, copy], i) => <motion.div className="process-wrap" key={title} {...reveal} transition={{ delay: i * .12 }}><div className="process-card"><span className="step">0{i + 1}</span><Icon size={48}/><h3>{title}</h3><p>{copy}</p></div>{i < 2 && <ArrowRight className="process-arrow"/>}</motion.div>)}</div>
     <motion.div className="reward-router" {...reveal}>
       <div><span>50%</span><strong>AUTO BUYBACK<br/>+ BURN</strong></div>
-      <div className="router-core" aria-label="Automatic fifty-fifty creator rewards split"><GitFork/><b>AUTO<br/>SPLIT</b></div>
-      <div><span>50%</span><strong>GROWTH<br/>+ MEMES</strong></div>
+      <div className="router-core" aria-label="Automated fifty-fifty creator rewards allocation"><GitFork/><b>HOURLY<br/>SPLIT</b></div>
+      <div><span>50%</span><strong>STAYS IN<br/>THE WALLET</strong></div>
     </motion.div>
-    <motion.div className="burn-counter" {...reveal}><span>COMMUNITY BURN METER</span><strong>{count.toLocaleString('en-US')} <small>$BURNY</small></strong><div className="live-dot">DEMO UNTIL LAUNCH</div></motion.div>
+    <motion.div className="burn-counter" {...reveal}><span>AUTOMATION LIVE</span><p>The counter above reads the mint supply directly from Solana. No estimates, no simulated numbers.</p><Button href={EXPLORER_URL}>VERIFY SUPPLY ON SOLSCAN <ArrowRight/></Button></motion.div>
   </div></section>
 }
 
@@ -109,34 +176,19 @@ function MemeGallery() {
 }
 
 function Tokenomics() {
-  return <section className="section dark-section" id="tokenomics"><div className="container token-grid"><motion.div {...reveal}><span className="eyebrow">BURN TOGETHER TOKENOMICS</span><h2>FAIR LAUNCH.<br/><span className="yellow">RISE TOGETHER.</span></h2><p className="section-copy">Pump.fun sets the platform rules. BURNY sets the spirit: half the creator rewards we receive go back into the fire, half go into the community and the memes.</p></motion.div>
-    <motion.div className="burn-ring" {...reveal}><div><Flame fill="currentColor"/><strong>50%</strong><span>TO THE FIRE</span></div></motion.div>
+  return <section className="section dark-section" id="tokenomics"><div className="container token-grid"><motion.div {...reveal}><span className="eyebrow">BURN TOGETHER TOKENOMICS</span><h2>LIVE ON SOLANA.<br/><span className="yellow">RISE TOGETHER.</span></h2><p className="section-copy">Launched on Pump.fun on 11 September 2026. The live 50 / 50 engine applies to creator rewards received, not token supply or a tax on each transfer. Trading fees follow the platform’s current rules.</p></motion.div>
+    <motion.div className="burn-ring" {...reveal}><div><Flame fill="currentColor"/><strong>50%</strong><span>AUTO BUY + BURN</span></div></motion.div>
     <div className="token-list">{tokenomics.map(([k, v]) => <motion.div key={k} {...reveal}><span>{k}</span><strong>{v}</strong></motion.div>)}</div>
   </div></section>
 }
 
-function BurnEngine() {
-  return <section className="section engine"><div className="container"><motion.div className="section-heading centered" {...reveal}><span className="eyebrow">THE BURN ENGINE</span><h2>ONE TX. ONE LESS.</h2><p>Each transaction permanently removes tokens from circulation.</p></motion.div>
-    <motion.div className="engine-track" {...reveal}>
-      <div className="coin before"><Flame/><strong>100</strong><span>$BURNY</span></div>
-      <div className="burn-chamber" aria-label="One BURNY permanently burned">
-        <div className="burn-chamber-flame"><Flame fill="currentColor"/></div>
-        <strong>−1 $BURNY</strong><span>PERMANENTLY BURNED</span>
-        <div className="burn-embers" aria-hidden="true"><i/><i/><i/></div>
-      </div>
-      <ArrowRight className="engine-arrow"/>
-      <div className="coin after"><Check/><strong>99</strong><span>$BURNY</span></div>
-    </motion.div>
-  </div></section>
-}
-
 function HowToBuy() {
-  const steps = [[Wallet, 'CREATE WALLET', 'Set up a Solana wallet you control.'], [Gem, 'GET SOL', 'Add SOL for your swap and network fee.'], [Zap, 'CONNECT', 'Open the official swap and connect.'], [Flame, 'SWAP FOR $BURNY', 'Paste the verified contract and fire away.']]
-  return <section className="section yellow-section" id="buy"><div className="container"><motion.div className="section-heading centered" {...reveal}><span className="eyebrow">PUMP.FUN LAUNCH</span><h2>ENTER THE<br/>BONDING CURVE.</h2><p>Official Pump.fun link and contract address appear here at launch. Always verify before swapping.</p></motion.div><div className="buy-steps">{steps.map(([Icon, title, copy], i) => <motion.div className="buy-step" key={title} {...reveal} transition={{ delay: i * .1 }}><span className="step-num">{i + 1}</span><Icon/><h3>{title}</h3><p>{copy}</p></motion.div>)}</div><div className="center"><Button dark>BUY ON PUMP.FUN <ArrowRight/></Button></div></div></section>
+  const steps = [[Wallet, 'CREATE WALLET', 'Set up a Solana wallet you control.'], [Gem, 'GET SOL', 'Add SOL for your swap and network fee.'], [Zap, 'CONNECT', 'Open the official BURNY page on Pump.fun and connect your wallet.'], [Flame, 'SWAP FOR $BURNY', 'Verify the contract below, review the quote and confirm your trade.']]
+  return <section className="section yellow-section" id="buy"><div className="container"><motion.div className="section-heading centered" {...reveal}><span className="eyebrow">PUMP.FUN LAUNCH</span><h2>BUY THE<br/>REAL $BURNY.</h2><p>BURNY is live. Use the official token page and match the complete Solana contract address before swapping.</p></motion.div><div className="buy-steps">{steps.map(([Icon, title, copy], i) => <motion.div className="buy-step" key={title} {...reveal} transition={{ delay: i * .1 }}><span className="step-num">{i + 1}</span><Icon/><h3>{title}</h3><p>{copy}</p></motion.div>)}</div><ContractAddress/><div className="center"><Button dark>BUY ON PUMP.FUN <ArrowRight/></Button></div></div></section>
 }
 
 function Community() {
-  return <section className="community" id="community"><div className="container"><motion.div className="community-banner" {...reveal}><Embers/><div><span className="eyebrow">THE $BURNY ARMY</span><h2>BURN TOGETHER.<br/><span>RISE TOGETHER.</span></h2><p>BURNY was born to burn. We were born to burn together. Hold, participate, contribute — bring the fire.</p><div className="community-chant"><span>WE PARTICIPATE.</span><span>WE CONTRIBUTE.</span><span>WE BURN TOGETHER.</span></div><div className="button-row"><Button><Send/> JOIN THE ARMY</Button><Button><X/> X / TWITTER</Button><Button><Sparkles/> DEXSCREENER</Button></div></div><div className="community-flame"><Flame fill="currentColor"/></div></motion.div></div></section>
+  return <section className="community" id="community"><div className="container"><motion.div className="community-banner" {...reveal}><Embers/><div><span className="eyebrow">THE $BURNY ARMY</span><h2>BURN TOGETHER.<br/><span>RISE TOGETHER.</span></h2><p>BURNY was born to burn. We were born to burn together. Hold, participate, contribute — bring the fire.</p><div className="community-chant"><span>WE PARTICIPATE.</span><span>WE CONTRIBUTE.</span><span>WE BURN TOGETHER.</span></div><div className="button-row"><Button href={TELEGRAM_URL}><Send/> JOIN THE ARMY</Button><Button href={X_URL}><X/> X / TWITTER</Button><Button href={PUMP_URL}><Sparkles/> LIVE CHART</Button></div></div><div className="community-flame"><Flame fill="currentColor"/></div></motion.div></div></section>
 }
 
 function FAQ() {
@@ -144,13 +196,23 @@ function FAQ() {
   return <section className="section cream" id="faq"><div className="container faq-grid"><motion.div {...reveal}><span className="eyebrow">FAQ</span><h2>STILL<br/><span className="hot">CURIOUS?</span></h2><p className="section-copy">Good. Never ape into anything without doing your own research.</p></motion.div><div className="faq-list">{faqs.map(([q, a], i) => <motion.div className={`faq-item ${open === i ? 'open' : ''}`} key={q} {...reveal}><button onClick={() => setOpen(open === i ? -1 : i)}><span>{q}</span><ChevronDown/></button><AnimatePresence initial={false}>{open === i && <motion.p initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }}>{a}</motion.p>}</AnimatePresence></motion.div>)}</div></div></section>
 }
 
+function ContractAddress() {
+  const [copyStatus, setCopyStatus] = useState('')
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(MINT)
+      setCopyStatus('Copied!')
+    } catch {
+      setCopyStatus('Copy unavailable. Select the address to copy it manually.')
+    }
+  }
+  return <div className="contract-wrap"><div className="contract"><span>SOLANA CONTRACT</span><strong>{MINT}</strong><button onClick={copy} aria-label="Copy BURNY contract address"><Copy/></button></div><p role="status">{copyStatus}</p></div>
+}
+
 function Footer() {
-  const [copied, setCopied] = useState(false)
-  const copy = () => { navigator.clipboard?.writeText('CONTRACT COMING SOON'); setCopied(true); setTimeout(() => setCopied(false), 1500) }
-  return <footer><div className="container"><div className="footer-main"><a className="footer-wordmark" href="#top" aria-label="BURNY home"><img src="/logo.png?v=1" alt="" /></a><h2>BUILT TO BURN.</h2><div className="footer-socials"><a href="#community"><Send/></a><a href="#community"><X/></a><a href="#community"><Globe2/></a></div></div><button className="contract" onClick={copy}><span>CONTRACT</span><strong>{copied ? 'COPIED!' : 'COMING SOON'}</strong><Copy/></button><div className="footer-bottom"><span>© 2026 BURNY</span><p>$BURNY is a meme coin. Crypto is risky. Do your own research and never spend more than you can afford to lose.</p></div></div></footer>
+  return <footer><div className="container"><div className="footer-main"><a className="footer-wordmark" href="#top" aria-label="BURNY home"><img src="/logo.png?v=1" alt="" /></a><h2>BUILT TO BURN.</h2><div className="footer-socials"><a href={TELEGRAM_URL} aria-label="BURNY Telegram"><Send/></a><a href={X_URL} aria-label="BURNY on X"><X/></a><a href={EXPLORER_URL} aria-label="BURNY on Solscan"><Globe2/></a></div></div><ContractAddress/><div className="footer-bottom"><span>© 2026 BURNY</span><p>$BURNY is a meme coin. Crypto is risky. Do your own research and never spend more than you can afford to lose.</p></div></div></footer>
 }
 
 export default function App() {
-  return <><main><Hero/><Marquee/><About/><BurnMechanism/><MemeGallery/><Tokenomics/><BurnEngine/><HowToBuy/><Community/><FAQ/></main><Footer/></>
+  return <><main><Hero/><Marquee/><About/><BurnMechanism/><MemeGallery/><Tokenomics/><HowToBuy/><Community/><FAQ/></main><Footer/></>
 }
-
